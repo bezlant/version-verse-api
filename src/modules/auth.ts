@@ -1,12 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt, { JwtPayload } from 'jsonwebtoken'
-
-const JWT_SECRET = process.env.JWT_SECRET
-if (!JWT_SECRET) throw new Error('JWT_SECRET must be defined')
-
-const PASSWORD_SALT = process.env.PASSWORD_SALT
-if (!PASSWORD_SALT) throw new Error('PASSWORD_SALT must be defined')
+import { JWT_SECRET, PASSWORD_SALT } from '@/constants'
 
 export const comparePasswords = (password: string, hash: string) =>
   bcrypt.compare(password, hash)
