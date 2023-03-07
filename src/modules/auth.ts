@@ -3,14 +3,19 @@ import bcrypt from 'bcrypt'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { JWT_SECRET, PASSWORD_SALT } from '@/constants'
 
+interface User {
+  id: string
+  username: string
+}
+
 export const comparePasswords = (password: string, hash: string) =>
   bcrypt.compare(password, hash)
 
 export const hashPassword = (password: string) =>
   bcrypt.hash(password, PASSWORD_SALT)
 
-export const createJWT = (user: { id: string; username: string }) => {
-  const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET)
+export const createJWT = ({ id, username }: User) => {
+  const token = jwt.sign({ id, username }, JWT_SECRET)
   return token
 }
 
@@ -27,7 +32,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
 
   if (!token) {
     res.status(401)
-    res.send({ message: 'Not valid token' })
+    res.send({ message: 'Not a valid token' })
     return
   }
 
@@ -37,7 +42,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   } catch (e) {
     console.error(e)
     res.status(401)
-    res.send({ message: 'Not valid token' })
+    res.send({ message: 'Not a valid token' })
   }
 
   next()
