@@ -39,10 +39,9 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = jwt.verify(token, JWT_SECRET)
     req.user = user
+    next()
   } catch (error) {
     res.status(401)
     res.send({message: error})
   }
-
-  next()
 }
