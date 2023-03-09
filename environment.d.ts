@@ -5,7 +5,7 @@ declare global {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production'
       JWT_SECRET: Secret
-      PASSWORD_SALT: string
+      PASSWORD_SALT: number
     }
   }
 }
