@@ -6,7 +6,7 @@ export const createNewUser = async (req: Request, res: Response) => {
   const [username, password] = [req.body.username, req.body.password]
 
   if (username === undefined || password === undefined) {
-    res.status(401).json({message: 'missing username or password'})
+    res.status(401).json({message: 'Missing username or password'})
     return
   }
 
@@ -25,7 +25,7 @@ export const signIn = async (req: Request, res: Response) => {
   const [username, password] = [req.body.username, req.body.password]
 
   if (username === undefined || password === undefined) {
-    res.status(401).json({message: 'missing username or password'})
+    res.status(401).json({message: 'Missing username or password'})
   }
 
   const user = await prisma.user.findUnique({
@@ -39,7 +39,7 @@ export const signIn = async (req: Request, res: Response) => {
     return
   }
 
-  const isValid = await comparePasswords(req.body.password, user?.password)
+  const isValid = await comparePasswords(password, user?.password)
 
   if (!isValid) {
     res.status(401).json({message: 'Invalid Password'})
