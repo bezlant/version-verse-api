@@ -28,7 +28,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     return
   }
 
-  const [, token] = bearer.split(' ')
+  const [, token] = bearer.split('=')
 
   if (token.length === 0) {
     res.status(401)

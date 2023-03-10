@@ -22,6 +22,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
+    '@typescript-eslint/no-misused-promises': 'off',
     'prettier/prettier': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',
   },
