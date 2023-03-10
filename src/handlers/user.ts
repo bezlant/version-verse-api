@@ -6,7 +6,7 @@ export const createNewUser = async (req: Request, res: Response) => {
   const [username, password] = [req.body.username, req.body.password]
 
   if (username === undefined || password === undefined) {
-    res.status(401).json({message: 'Missing username or password'})
+    res.status(401).json({message: 'missing username or password'})
     return
   }
 
@@ -22,24 +22,30 @@ export const createNewUser = async (req: Request, res: Response) => {
 }
 
 export const signIn = async (req: Request, res: Response) => {
+  const [username, password] = [req.body.username, req.body.password]
+
+  if (username === undefined || password === undefined) {
+    res.status(401).json({message: 'missing username or password'})
+  }
+
   const user = await prisma.user.findUnique({
     where: {
-      username: req.body.username,
+      username,
     },
   })
 
   if (user == null) {
     res.status(404).json({message: 'User not found'})
-    return {}
+    return
   }
 
   const isValid = await comparePasswords(req.body.password, user?.password)
 
   if (!isValid) {
     res.status(401).json({message: 'Invalid Password'})
-    return {}
+    return
   }
 
   const token = createJWT(user)
-  return token
+  res.status(200).json({token})
 }
