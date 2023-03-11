@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "ts-node-dev --respawn --inspect --transpile-only --exit-child --watch src -r tsconfig-paths/register --files src/index.ts"
+    "dev": "ts-node-dev --tree-kill --files --debug --respawn --inspect --watch src -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.10.1",

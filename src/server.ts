@@ -17,9 +17,7 @@ app.use('/api', protect, router)
 app.post('/user', createNewUser)
 app.post('/signin', signIn)
 
-process.on('SIGINT', () => {
-  console.log('\nGracefully shutting down from SIGINT (Ctrl-C)')
-  process.exit(0)
-})
+process.on('SIGINT', () => process.exit())
+process.on('SIGTERM', () => process.exit())
 
 export default app
