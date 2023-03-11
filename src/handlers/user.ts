@@ -10,12 +10,12 @@ export const createNewUser = async (req: Request, res: Response) => {
     return
   }
 
-  const userData = {
+  const data = {
     username,
     password: await hashPassword(password),
   }
 
-  const user = await prisma.user.create({data: userData})
+  const user = await prisma.user.create({data})
 
   const token = createJWT(user)
   res.status(200).json({token})

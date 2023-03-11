@@ -2,11 +2,7 @@ import {type NextFunction, type Request, type Response} from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import {JWT_SECRET, PASSWORD_SALT} from '@/constants'
-
-interface User {
-  id: string
-  username: string
-}
+import {type User} from '@prisma/client'
 
 export const comparePasswords = async (password: string, hash: string) =>
   await bcrypt.compare(password, hash)
@@ -14,10 +10,7 @@ export const comparePasswords = async (password: string, hash: string) =>
 export const hashPassword = async (password: string) =>
   await bcrypt.hash(password, Number(PASSWORD_SALT))
 
-export const createJWT = ({id, username}: User) => {
-  const token = jwt.sign({id, username}, JWT_SECRET)
-  return token
-}
+export const createJWT = (user: User) => jwt.sign(user, JWT_SECRET)
 
 export const protect = (req: Request, res: Response, next: NextFunction) => {
   const bearer = req.headers.authorization
