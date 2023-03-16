@@ -1,7 +1,7 @@
-import {type JwtPayload} from 'jsonwebtoken'
+import {type User} from '@prisma/client'
 
 declare module 'express-serve-static-core' {
   interface Request {
-    user: string | JwtPayload
+    user: User
   }
 }

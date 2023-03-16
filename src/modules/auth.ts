@@ -10,7 +10,8 @@ export const comparePasswords = async (password: string, hash: string) =>
 export const hashPassword = async (password: string) =>
   await bcrypt.hash(password, Number(PASSWORD_SALT))
 
-export const createJWT = (user: User) => jwt.sign(user, JWT_SECRET)
+export const createJWT = (user: User) =>
+  jwt.sign({id: user.id, username: user.username}, JWT_SECRET)
 
 export const protect = (req: Request, res: Response, next: NextFunction) => {
   const bearer = req.headers.authorization
@@ -31,7 +32,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const user = jwt.verify(token, JWT_SECRET)
-    req.user = user
+    req.user = user as User
     next()
   } catch (error) {
     res.status(401)
