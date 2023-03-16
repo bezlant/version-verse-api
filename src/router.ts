@@ -1,29 +1,36 @@
 import {Router} from 'express'
 import {body} from 'express-validator'
+import {
+  createProduct,
+  deleteProduct,
+  getProductById,
+  getProducts,
+  updateProduct,
+} from './handlers/product'
 import {handleInputErrors} from './modules/middleware'
 
 const router = Router()
 
 // Product
-router.get('/product', (req, res) => {})
+router.get('/product', getProducts)
 
-router.get('/product/:id', (req, res) => {})
+router.get('/product/:id', getProductById)
 
 router.post(
   '/product',
   body('name').isString(),
   handleInputErrors,
-  (req, res) => {}
+  createProduct
 )
 
 router.put(
   '/product/:id',
   body('name').isString(),
   handleInputErrors,
-  (req, res) => {}
+  updateProduct
 )
 
-router.delete('/product/:id', (req, res) => {})
+router.delete('/product/:id', (req, res) => deleteProduct)
 
 // Update
 router.get('/update', (req, res) => {})
