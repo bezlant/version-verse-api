@@ -1,4 +1,4 @@
-import {type Secret} from 'jsonwebtoken'
+import { type Secret } from 'jsonwebtoken'
 
 declare global {
   namespace NodeJS {

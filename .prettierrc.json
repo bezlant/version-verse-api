@@ -7,5 +7,5 @@
   "indentStyle": "tab",
   "useTabs": false,
   "trailingComma": "es5",
-  "bracketSpacing": false
+  "bracketSpacing": true
 }

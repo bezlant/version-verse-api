@@ -1,5 +1,5 @@
 import prisma from '@/db'
-import {type Request, type Response} from 'express'
+import { type Request, type Response } from 'express'
 
 export const getProducts = async (req: Request, res: Response) => {
   const user = await prisma.user.findUnique({
@@ -11,11 +11,11 @@ export const getProducts = async (req: Request, res: Response) => {
     },
   })
 
-  res.status(200).json({data: user?.products})
+  res.status(200).json({ data: user?.products })
 }
 
 export const getProductById = async (req: Request, res: Response) => {
-  const {id} = req.params
+  const { id } = req.params
   const userId = req.user.id
 
   const product = prisma.product.findFirst({
@@ -25,7 +25,7 @@ export const getProductById = async (req: Request, res: Response) => {
     },
   })
 
-  res.status(200).json({data: product})
+  res.status(200).json({ data: product })
 }
 
 export const createProduct = async (req: Request, res: Response) => {
@@ -36,7 +36,7 @@ export const createProduct = async (req: Request, res: Response) => {
     },
   })
 
-  res.status(200).json({data: product})
+  res.status(200).json({ data: product })
 }
 
 export const updateProduct = async (req: Request, res: Response) => {
@@ -52,7 +52,7 @@ export const updateProduct = async (req: Request, res: Response) => {
     },
   })
 
-  res.status(200).json({data: updated})
+  res.status(200).json({ data: updated })
 }
 
 export const deleteProduct = async (req: Request, res: Response) => {
@@ -65,5 +65,5 @@ export const deleteProduct = async (req: Request, res: Response) => {
     },
   })
 
-  res.status(200).json({data: deleted})
+  res.status(200).json({ data: deleted })
 }

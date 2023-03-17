@@ -1,8 +1,8 @@
-import {type NextFunction, type Request, type Response} from 'express'
+import { type NextFunction, type Request, type Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import {JWT_SECRET, PASSWORD_SALT} from '@/constants'
-import {type User} from '@prisma/client'
+import { JWT_SECRET, PASSWORD_SALT } from '@/constants'
+import { type User } from '@prisma/client'
 
 export const comparePasswords = async (password: string, hash: string) =>
   await bcrypt.compare(password, hash)
@@ -11,14 +11,14 @@ export const hashPassword = async (password: string) =>
   await bcrypt.hash(password, Number(PASSWORD_SALT))
 
 export const createJWT = (user: User) =>
-  jwt.sign({id: user.id, username: user.username}, JWT_SECRET)
+  jwt.sign({ id: user.id, username: user.username }, JWT_SECRET)
 
 export const protect = (req: Request, res: Response, next: NextFunction) => {
   const bearer = req.headers.authorization
 
   if (bearer == null) {
     res.status(401)
-    res.send({message: 'Not authorized'})
+    res.send({ message: 'Not authorized' })
     return
   }
 
@@ -26,7 +26,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
 
   if (token.length === 0) {
     res.status(401)
-    res.send({message: 'Not a valid token'})
+    res.send({ message: 'Not a valid token' })
     return
   }
 
@@ -36,6 +36,6 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     next()
   } catch (error) {
     res.status(401)
-    res.send({message: error})
+    res.send({ message: error })
   }
 }

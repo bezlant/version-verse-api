@@ -25,6 +25,7 @@ module.exports = {
     '@typescript-eslint/no-misused-promises': 'off',
     'prettier/prettier': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    'object-curly-spacing': ['error', 'always'],
   },
   settings: {
     'import/resolver': {

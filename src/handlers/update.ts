@@ -3,7 +3,7 @@ import { type Update } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
 export const getUpdates = async (req: Request, res: Response) => {
-  const product = await prisma.product.findMany({
+  const products = await prisma.product.findMany({
     where: {
       userId: req.user.id,
     },
@@ -13,7 +13,7 @@ export const getUpdates = async (req: Request, res: Response) => {
   })
 
   // NOTE: This is not good, probably need to updated the schema
-  const updates = product.reduce((allUpdates: Update[], product) => {
+  const updates = products.reduce((allUpdates: Update[], product) => {
     return [...allUpdates, ...product.updates]
   }, [])
 
