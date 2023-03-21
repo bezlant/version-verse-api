@@ -85,4 +85,6 @@ router.post(
 
 router.delete('/updatepoint/:id', (req, res) => {})
 
+// Must handle errors here (Erorr won't bubble up to the main error handler)
+
 export default router

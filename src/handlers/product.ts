@@ -1,5 +1,5 @@
 import prisma from '@/db'
-import { type Request, type Response } from 'express'
+import { type NextFunction, type Request, type Response } from 'express'
 
 export const getProducts = async (req: Request, res: Response) => {
   const user = await prisma.user.findUnique({
@@ -28,15 +28,23 @@ export const getProductById = async (req: Request, res: Response) => {
   res.status(200).json({ data: product })
 }
 
-export const createProduct = async (req: Request, res: Response) => {
-  const product = await prisma.product.create({
-    data: {
-      name: req.body.name,
-      userId: req.user.id,
-    },
-  })
+export const createProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const product = await prisma.product.create({
+      data: {
+        name: req.body.name,
+        userId: req.user.id,
+      },
+    })
 
-  res.status(200).json({ data: product })
+    res.status(200).json({ data: product })
+  } catch (e) {
+    next(e)
+  }
 }
 
 export const updateProduct = async (req: Request, res: Response) => {

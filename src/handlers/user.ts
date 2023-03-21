@@ -1,8 +1,12 @@
-import { type Request, type Response } from 'express'
+import { type NextFunction, type Request, type Response } from 'express'
 import prisma from '@/db'
 import { comparePasswords, createJWT, hashPassword } from '@/modules/auth'
 
-export const createNewUser = async (req: Request, res: Response) => {
+export const createNewUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const [username, password] = [req.body.username, req.body.password]
 
   if (username === undefined || password === undefined) {
@@ -15,10 +19,15 @@ export const createNewUser = async (req: Request, res: Response) => {
     password: await hashPassword(password),
   }
 
-  const user = await prisma.user.create({ data })
+  try {
+    const user = await prisma.user.create({ data })
 
-  const token = createJWT(user)
-  res.status(200).json({ token })
+    const token = createJWT(user)
+    res.status(200).json({ token })
+  } catch (e) {
+    if (e instanceof Error) e.name = 'input'
+    next(e)
+  }
 }
 
 export const signIn = async (req: Request, res: Response) => {
