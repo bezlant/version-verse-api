@@ -17,6 +17,10 @@ app.use('/api', protect, router)
 app.post('/user', createNewUser)
 app.post('/signin', signIn)
 
+// TODO: Use enum for errors
+// TODO: Testing all endpoints
+// TODO: Updatepoint api
+// TODO: Swagger
 app.use(((err, req, res, next) => {
   if (err.name === 'auth')
     res.status(401).json({ message: 'Unauthorized access' })

@@ -3,7 +3,7 @@ import { type Secret } from 'jsonwebtoken'
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      NODE_ENV: 'development' | 'production'
+      NODE_ENV: 'development' | 'production' | 'testing'
       JWT_SECRET: Secret
       PASSWORD_SALT: number
     }

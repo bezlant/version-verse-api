@@ -1,8 +1,9 @@
+/* eslint-disable import/first */
 import * as dotenv from 'dotenv'
 
 dotenv.config()
 
-// eslint-disable-next-line import/first
+import config from './config'
 import app from './server'
 
-app.listen(3001, () => {})
+app.listen(config.port, () => {})
