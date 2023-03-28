@@ -4,6 +4,7 @@ import cors from 'cors'
 import router from './router'
 import { protect } from './modules/auth'
 import { createNewUser, signIn } from './handlers/user'
+import { ERROR } from './constants'
 
 const app = express()
 
@@ -17,14 +18,15 @@ app.use('/api', protect, router)
 app.post('/user', createNewUser)
 app.post('/signin', signIn)
 
-// TODO: Use enum for errors
 // TODO: Testing all endpoints
 // TODO: Updatepoint api
 // TODO: Swagger
+// TODO: Deploy on render
+
 app.use(((err, req, res, next) => {
-  if (err.name === 'auth')
+  if (err.cause === ERROR.AUTH)
     res.status(401).json({ message: 'Unauthorized access' })
-  else if (err.name === 'input')
+  else if (err.cause === ERROR.INPUT)
     res.status(400).json({ message: 'Invalid input' })
   else res.status(500).json({ message: 'Server error' })
 }) as ErrorRequestHandler)

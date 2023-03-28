@@ -1,3 +1,4 @@
+import { ERROR } from '@/constants'
 import prisma from '@/db'
 import { type NextFunction, type Request, type Response } from 'express'
 
@@ -43,6 +44,7 @@ export const createProduct = async (
 
     res.status(200).json({ data: product })
   } catch (e) {
+    if (e instanceof Error) e.cause = ERROR.INTERNAL
     next(e)
   }
 }

@@ -1,6 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import prisma from '@/db'
 import { comparePasswords, createJWT, hashPassword } from '@/modules/auth'
+import { ERROR } from '@/constants'
 
 export const createNewUser = async (
   req: Request,
@@ -25,7 +26,7 @@ export const createNewUser = async (
     const token = createJWT(user)
     res.status(200).json({ token })
   } catch (e) {
-    if (e instanceof Error) e.name = 'input'
+    if (e instanceof Error) e.cause = ERROR.INPUT
     next(e)
   }
 }

@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { type User } from '@prisma/client'
 import config from '@/config'
+import { ERROR } from '@/constants'
 
 export const comparePasswords = async (password: string, hash: string) =>
   await bcrypt.compare(password, hash)
@@ -17,16 +18,14 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   const bearer = req.headers.authorization
 
   if (bearer == null) {
-    res.status(401)
-    res.send({ message: 'Not authorized' })
+    res.status(401).send({ message: 'Not authorized' })
     return
   }
 
   const [, token] = bearer.split('=')
 
   if (token.length === 0) {
-    res.status(401)
-    res.send({ message: 'Not a valid token' })
+    res.status(401).send({ message: 'Not a valid token' })
     return
   }
 
@@ -34,8 +33,8 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     const user = jwt.verify(token, config.jwtSecret)
     req.user = user as User
     next()
-  } catch (error) {
-    res.status(401)
-    res.send({ message: error })
+  } catch (e) {
+    if (e instanceof Error) e.cause = ERROR.AUTH
+    res.status(401).send({ message: e })
   }
 }
