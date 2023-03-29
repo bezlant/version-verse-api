@@ -1,21 +1,37 @@
 {
   "ts-node": {
     "files": true,
-    "require": ["tsconfig-paths/register"]
+    "require": [
+      "tsconfig-paths/register"
+    ]
   },
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": ".",
+    "resolveJsonModule": true,
     "sourceMap": true,
     "outDir": "dist",
     "strict": true,
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["src/**/*", "./jest.config.js", "./environment.d.ts"],
-  "exclude": ["node_modules"],
-  "typeRoots": ["./types"]
+  "include": [
+    "src/**/*",
+    "./jest.config.js",
+    "./environment.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "typeRoots": [
+    "./types"
+  ]
 }

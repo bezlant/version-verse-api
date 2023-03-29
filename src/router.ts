@@ -37,7 +37,7 @@ router.put(
   updateProduct
 )
 
-router.delete('/product/:id', (req, res) => deleteProduct)
+router.delete('/product/:id', deleteProduct)
 
 // Update
 router.get('/update', getUpdates)
@@ -85,6 +85,6 @@ router.post(
 
 router.delete('/updatepoint/:id', (req, res) => {})
 
-// Must handle errors here (Erorr won't bubble up to the main error handler)
+// TODO: Must handle errors here (Erorr won't bubble up to the main error handler)
 
 export default router
