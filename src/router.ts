@@ -14,7 +14,15 @@ import {
   getUpdates,
   updateUpdate,
 } from './handlers/update'
+import {
+  createUpdatePoint,
+  deleteUpdatePoint,
+  getUpdatePointById,
+  updateUpdatePoint,
+} from './handlers/updatepoint'
 import { handleInputErrors } from './modules/middleware'
+
+// TODO: Must handle errors here (Erorr won't bubble up to the main error handler)
 
 const router = Router()
 
@@ -64,15 +72,13 @@ router.post(
 router.delete('/update/:id', deleteUpdate)
 
 // Update point
-router.get('/updatepoint', (req, res) => {})
-
-router.get('/updatepoint/:id', (req, res) => {})
+router.get('/updatepoint/:id', getUpdatePointById)
 
 router.put(
   '/updatepoint/:id',
   body('name').optional().isString(),
   body('description').optional().isString(),
-  (req, res) => {}
+  updateUpdatePoint
 )
 
 router.post(
@@ -80,11 +86,9 @@ router.post(
   body('name').exists().isString(),
   body('description').isString(),
   body('updateId').exists().isString(),
-  (req, res) => {}
+  createUpdatePoint
 )
 
-router.delete('/updatepoint/:id', (req, res) => {})
-
-// TODO: Must handle errors here (Erorr won't bubble up to the main error handler)
+router.delete('/updatepoint/:id', deleteUpdatePoint)
 
 export default router

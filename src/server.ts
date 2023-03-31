@@ -29,7 +29,6 @@ app.post('/signup', createNewUser)
 app.post('/signin', signIn)
 
 // TODO: Testing all endpoints
-// TODO: Updatepoint api
 // TODO: Deploy on render
 
 app.use(((err, _, res) => {
