@@ -5,9 +5,9 @@ import merge from 'lodash.merge'
 
 interface Config {
   stage: string
-  env: 'production' | 'testing' | 'development'
+  env: string
   port: number
-  salt: number
+  salt: string
   jwtSecret: Secret
 }
 

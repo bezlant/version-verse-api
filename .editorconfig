@@ -1,0 +1,38 @@
+; This file is for unifying the coding style for different editors and IDEs
+; See editorconfig.org
+
+; top-most EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+single_quote = true
+
+[*.ts]
+indent_style = tab
+
+[*.scala]
+indent_size = 2
+
+[*.sc]
+indent_size = 2
+
+[*.sbt]
+indent_size = 2
+
+[*.conf]
+indent_size = 2
+
+[package.json]
+indent_size = 2
+
+[riff-raff.yaml]
+indent_size = 2
+
+[makefile]
+indent_style = tab

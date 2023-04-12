@@ -25,8 +25,6 @@ export const getUpdatePointById = async (req: Request, res: Response) => {
   const { id: userId } = req.user
   const { id: updatePointId } = req.params
 
-  // TODO: Something fishy is here, what if user has multiple products?
-
   const updatePoint = await prisma.updatePoint.findFirst({
     where: {
       id: { equals: updatePointId },
