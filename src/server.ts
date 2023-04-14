@@ -39,8 +39,4 @@ app.use(((err, _, res) => {
   else res.status(500).json({ message: 'Server error' })
 }) as ErrorRequestHandler)
 
-// not a Graceful shutdown
-process.on('SIGINT', () => process.exit())
-process.on('SIGTERM', () => process.exit())
-
 export default app
