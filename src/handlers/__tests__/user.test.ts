@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '@/constants'
+import { AUTH_ERROR } from '@/constants'
 import prisma from '@/db'
 import { comparePasswords } from '@/modules/auth'
 import app from '@/server'
@@ -40,7 +40,7 @@ describe('user handler', () => {
       .send({ username: '', password: '' })
 
     expect(response.status).toBe(401)
-    expect(response.body.message).toBe(ERROR_MESSAGE.MISSING_USERNAME_PASSWORD)
+    expect(response.body.message).toBe(AUTH_ERROR.MISSING_USERNAME_PASSWORD)
   })
 
   test('returns 401 if username or password are missing', async () => {
@@ -48,7 +48,7 @@ describe('user handler', () => {
 
     expect(response.statusCode).toBe(401)
     expect(response.body).toEqual({
-      message: ERROR_MESSAGE.MISSING_USERNAME_PASSWORD,
+      message: AUTH_ERROR.MISSING_USERNAME_PASSWORD,
     })
   })
 
@@ -58,7 +58,7 @@ describe('user handler', () => {
       .send({ username: 'nonexistentuser', password: 'password' })
 
     expect(response.statusCode).toBe(404)
-    expect(response.body).toEqual({ message: ERROR_MESSAGE.USER_NOT_FOUND })
+    expect(response.body).toEqual({ message: AUTH_ERROR.USER_NOT_FOUND })
   })
 
   test('returns 401 if password is incorrect', async () => {
@@ -67,7 +67,7 @@ describe('user handler', () => {
       .send({ username, password: 'incorrectpassword' })
 
     expect(response.statusCode).toBe(401)
-    expect(response.body).toEqual({ message: ERROR_MESSAGE.INVALID_PASSWORD })
+    expect(response.body).toEqual({ message: AUTH_ERROR.INVALID_PASSWORD })
   })
 
   test('returns a JWT token if username and password are correct', async () => {

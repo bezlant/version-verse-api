@@ -31,7 +31,7 @@ app.post('/signin', signIn)
 // TODO: Testing all endpoints
 // TODO: Deploy on render
 
-app.use(((err, _, res) => {
+app.use(((err, _req, res, _next) => {
   if (err.cause === ERROR.AUTH)
     res.status(401).json({ message: 'Unauthorized access' })
   else if (err.cause === ERROR.INPUT)

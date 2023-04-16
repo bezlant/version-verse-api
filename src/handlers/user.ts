@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import prisma from '@/db'
 import { comparePasswords, createJWT, hashPassword } from '@/modules/auth'
-import { ERROR, ERROR_MESSAGE } from '@/constants'
+import { ERROR, AUTH_ERROR } from '@/constants'
 
 const isUsernamePasswordValid = (username: string, password: string) => {
   let isValid = true
@@ -24,7 +24,7 @@ export const createNewUser = async (
   const [username, password]: string[] = [req.body.username, req.body.password]
 
   if (!isUsernamePasswordValid(username, password)) {
-    res.status(401).json({ message: ERROR_MESSAGE.MISSING_USERNAME_PASSWORD })
+    res.status(401).json({ message: AUTH_ERROR.MISSING_USERNAME_PASSWORD })
     return
   }
 
@@ -48,7 +48,7 @@ export const signIn = async (req: Request, res: Response) => {
   const [username, password] = [req.body.username, req.body.password]
 
   if (!isUsernamePasswordValid(username, password)) {
-    res.status(401).json({ message: ERROR_MESSAGE.MISSING_USERNAME_PASSWORD })
+    res.status(401).json({ message: AUTH_ERROR.MISSING_USERNAME_PASSWORD })
     return
   }
 
@@ -59,14 +59,14 @@ export const signIn = async (req: Request, res: Response) => {
   })
 
   if (user == null) {
-    res.status(404).json({ message: ERROR_MESSAGE.USER_NOT_FOUND })
+    res.status(404).json({ message: AUTH_ERROR.USER_NOT_FOUND })
     return
   }
 
   const isValid = await comparePasswords(password, user?.password)
 
   if (!isValid) {
-    res.status(401).json({ message: ERROR_MESSAGE.INVALID_PASSWORD })
+    res.status(401).json({ message: AUTH_ERROR.INVALID_PASSWORD })
     return
   }
 

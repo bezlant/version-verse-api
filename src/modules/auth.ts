@@ -22,7 +22,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     return
   }
 
-  const [, token] = bearer.split('=')
+  const [, token] = bearer.split(' ')
 
   if (token.length === 0) {
     res.status(401).send({ message: 'Not a valid token' })
@@ -35,6 +35,6 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     next()
   } catch (e) {
     if (e instanceof Error) e.cause = ERROR.AUTH
-    res.status(401).send({ message: e })
+    next(e)
   }
 }
