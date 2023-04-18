@@ -4,6 +4,7 @@
     "dev": "ts-node-dev --tree-kill --files --debug --respawn --inspect --watch src -r tsconfig-paths/register swagger.js",
     "swagger": "node swagger.js",
     "test": "jest",
+    "test:watch": "jest --watch",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js"
   },

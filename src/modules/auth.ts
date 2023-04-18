@@ -24,7 +24,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
 
   const [, token] = bearer.split(' ')
 
-  if (token.length === 0) {
+  if (token === undefined || token.length === 0) {
     res.status(401).send({ message: 'Not a valid token' })
     return
   }
