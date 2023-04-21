@@ -2,6 +2,7 @@ import prisma from '@/db'
 import app from '@/server'
 import { type Product } from '@prisma/client'
 import request from 'supertest'
+import { createProduct, createUser, getJwt } from './utils'
 
 describe('/api/product tests', () => {
   const user1 = { username: '1producttest1', password: '1producttestpassword1' }
@@ -177,30 +178,6 @@ const getProducts = async (jwt: string): Promise<[Product[], number]> => {
 
   return [products, status]
 }
-const getJwt = async (user: { username: string; password: string }) => {
-  const { username, password } = user
-  const signinResponse = await request(app)
-    .post('/signin')
-    .send({ username, password })
-
-  const jwt: string = signinResponse.body.token
-  return jwt
-}
-
-const createProduct = async (
-  product: { name?: string },
-  jwt?: string
-): Promise<[Product, number]> => {
-  const response = await request(app)
-    .post('/api/product')
-    .set('Authorization', `Bearer ${jwt ?? ''}`)
-    .send(product)
-
-  const createdProduct: Product = response.body.data
-  const { status } = response
-
-  return [createdProduct, status]
-}
 
 const getProductById = async (
   productId: string,
@@ -214,8 +191,4 @@ const getProductById = async (
   const { status } = response
 
   return [product, status]
-}
-
-const createUser = async (username: string, password: string) => {
-  await request(app).post('/signup').send({ username, password })
 }
