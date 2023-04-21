@@ -1,5 +1,4 @@
 import prisma from '@/db'
-import { type Update } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
 const getProductByUpdateId = async (userId: string, updateId: string) => {
@@ -15,24 +14,6 @@ const getProductByUpdateId = async (userId: string, updateId: string) => {
   })
 
   return product
-}
-
-export const getUpdates = async (req: Request, res: Response) => {
-  const products = await prisma.product.findMany({
-    where: {
-      userId: req.user.id,
-    },
-    include: {
-      updates: true,
-    },
-  })
-
-  // NOTE: This is not good, probably need to updated the schema
-  const updates = products.reduce((allUpdates: Update[], product) => {
-    return [...allUpdates, ...product.updates]
-  }, [])
-
-  res.json({ data: updates })
 }
 
 export const getUpdateById = async (req: Request, res: Response) => {
@@ -62,7 +43,7 @@ export const createUpdate = async (req: Request, res: Response) => {
   })
 
   if (product === null) {
-    res.json({ message: 'No product update found' })
+    res.status(404).json({ message: 'No product update found' })
     return
   }
 

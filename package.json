@@ -3,8 +3,8 @@
   "scripts": {
     "dev": "ts-node-dev --tree-kill --files --debug --respawn --inspect --watch src -r tsconfig-paths/register swagger.js",
     "swagger": "node swagger.js",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --runInBand --silent=false",
+    "test:watch": "jest --watch --runInBand --silent=false",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js"
   },

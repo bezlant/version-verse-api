@@ -11,7 +11,6 @@ import {
   createUpdate,
   deleteUpdate,
   getUpdateById,
-  getUpdates,
   updateUpdate,
 } from './handlers/update'
 import {
@@ -48,8 +47,6 @@ router.put(
 router.delete('/product/:id', deleteProduct)
 
 // Update
-router.get('/update', getUpdates)
-
 router.get('/update/:id', getUpdateById)
 
 router.put(
