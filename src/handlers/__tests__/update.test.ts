@@ -42,7 +42,128 @@ describe('/api/update tests', () => {
     expect(update.title).toBe(updateTitle)
     expect(update.body).toBe(updateBody)
   })
+
+  test('should get an update by id', async () => {
+    const jwt: string = await getJwt(user1)
+    const [product] = await createProduct({ name: productName }, jwt)
+
+    const [update] = await createUpdate(
+      {
+        title: updateTitle,
+        body: updateBody,
+        productId: product.id,
+      },
+      jwt
+    )
+
+    const [gotUpdate, status] = await getUpdateById(update, jwt)
+
+    expect(status).toBe(200)
+    expect(gotUpdate.title).toBe(update.title)
+    expect(gotUpdate.body).toBe(update.body)
+  })
+
+  test('should update an update by id', async () => {
+    const jwt: string = await getJwt(user1)
+    const [product] = await createProduct({ name: productName }, jwt)
+
+    const [update] = await createUpdate(
+      {
+        title: updateTitle,
+        body: updateBody,
+        productId: product.id,
+      },
+      jwt
+    )
+
+    const newUpdate: Update = {
+      ...update,
+      title: 'Completely new update',
+      status: 'DEPRECATED',
+      body: 'Completely new body',
+    }
+
+    const [updatedUpdate, status] = await updateUpdateById(
+      newUpdate,
+      update,
+      jwt
+    )
+
+    const [gotUpdate] = await getUpdateById(newUpdate, jwt)
+
+    expect(updatedUpdate).not.toBeUndefined()
+
+    expect(status).toBe(200)
+    expect(gotUpdate.title).toBe(newUpdate.title)
+    expect(gotUpdate.body).toBe(newUpdate.body)
+  })
+  test('should delete an update by id', async () => {
+    const jwt: string = await getJwt(user1)
+    const [product] = await createProduct({ name: productName }, jwt)
+
+    const [update] = await createUpdate(
+      {
+        title: updateTitle,
+        body: updateBody,
+        productId: product.id,
+      },
+      jwt
+    )
+
+    const [deleted, status] = await deleteUpdateById(update.id, jwt)
+
+    expect(deleted).toEqual(update)
+    expect(status).toBe(200)
+
+    const [gotUpdate] = await getUpdateById(update, jwt)
+
+    expect(gotUpdate).toBeUndefined()
+  })
 })
+
+const deleteUpdateById = async (
+  updateId: string,
+  jwt: string
+): Promise<[Update, number]> => {
+  const response = await request(app)
+    .delete(`/api/update/${updateId}`)
+    .set('Authorization', `Bearer ${jwt ?? ''}`)
+
+  const deleted: Update = response.body.data
+  const { status } = response
+
+  return [deleted, status]
+}
+
+const updateUpdateById = async (
+  newUpdate: Update,
+  oldUpdate: Update,
+  jwt: string
+): Promise<[Update, number]> => {
+  const response = await request(app)
+    .put(`/api/update/${oldUpdate.id}`)
+    .set('Authorization', `Bearer ${jwt ?? ''}`)
+    .send(newUpdate)
+
+  const updated: Update = response.body.data
+  const { status } = response
+
+  return [updated, status]
+}
+
+const getUpdateById = async (
+  update: Update,
+  jwt?: string
+): Promise<[Update, number]> => {
+  const response = await request(app)
+    .get(`/api/update/${update.id}`)
+    .set('Authorization', `Bearer ${jwt ?? ''}`)
+
+  const gotUpdate: Update = response.body.data
+  const { status } = response
+
+  return [gotUpdate, status]
+}
 
 const createUpdate = async (
   update: { title: string; body: string; productId: string },

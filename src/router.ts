@@ -21,8 +21,6 @@ import {
 } from './handlers/updatepoint'
 import { handleInputErrors } from './modules/middleware'
 
-// TODO: Must handle errors here (Erorr won't bubble up to the main error handler)
-
 const router = Router()
 
 // Product

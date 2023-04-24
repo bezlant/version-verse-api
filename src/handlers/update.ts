@@ -27,7 +27,7 @@ export const getUpdateById = async (req: Request, res: Response) => {
     return
   }
 
-  const update = prisma.update.findUnique({
+  const update = await prisma.update.findUnique({
     where: {
       id: updateId,
     },
