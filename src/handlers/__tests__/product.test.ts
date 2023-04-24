@@ -31,6 +31,24 @@ describe('/api/product tests', () => {
     expect(product.name).toBe(productName)
   })
 
+  test('should update a new product', async () => {
+    const jwt: string = await getJwt(user1)
+
+    const [product] = await createProduct({ name: productName }, jwt)
+
+    const newProduct: Product = {
+      ...product,
+      name: 'Updated Awesome Product',
+    }
+
+    const [updated, status] = await updateProduct(newProduct, product, jwt)
+
+    const [gotProduct] = await getProductById(updated.id, jwt)
+
+    expect(status).toBe(200)
+    expect(updated.name).toBe(gotProduct.name)
+  })
+
   test('create new Product should return 401 if not authenticated', async () => {
     const [gotProduct, status] = await createProduct({
       name: 'Nice shiny product',
@@ -177,6 +195,22 @@ const getProducts = async (jwt: string): Promise<[Product[], number]> => {
   const products: Product[] = response.body.data
 
   return [products, status]
+}
+
+const updateProduct = async (
+  newProduct: Product,
+  oldProduct: Product,
+  jwt: string
+): Promise<[Product, number]> => {
+  const response = await request(app)
+    .put(`/api/product/${oldProduct.id}`)
+    .set('Authorization', `Bearer ${jwt}`)
+    .send(newProduct)
+
+  const { status } = response
+  const product: Product = response.body.data
+
+  return [product, status]
 }
 
 const getProductById = async (
