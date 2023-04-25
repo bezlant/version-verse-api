@@ -6,7 +6,7 @@
     "test": "jest --runInBand --silent=false",
     "test:watch": "jest --watch --runInBand --silent=false",
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js"
+    "start": "ts-node -r tsconfig-paths/register dist/src/index.js"
   },
   "dependencies": {
     "@prisma/client": "^4.10.1",
