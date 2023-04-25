@@ -28,9 +28,6 @@ app.use('/api', protect, router)
 app.post('/signup', createNewUser)
 app.post('/signin', signIn)
 
-// TODO: Testing all endpoints
-// TODO: Deploy on render
-
 app.use(((err, _req, res, _next) => {
   if (err.cause === ERROR.AUTH)
     res.status(401).json({ message: 'Unauthorized access' })

@@ -8,7 +8,7 @@ const getUpdateByUpdatePointId = async (
   const update = await prisma.update.findFirst({
     where: {
       updatePoints: {
-        some: { updateId: { equals: updatePointId } },
+        some: { id: { equals: updatePointId } },
       },
       product: {
         userId: {
@@ -27,7 +27,7 @@ export const getUpdatePointById = async (req: Request, res: Response) => {
 
   const updatePoint = await prisma.updatePoint.findFirst({
     where: {
-      id: { equals: updatePointId },
+      id: updatePointId,
       update: {
         product: {
           userId: { equals: userId },

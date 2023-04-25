@@ -20,16 +20,12 @@ export const getUpdateById = async (req: Request, res: Response) => {
   const { id: userId } = req.user
   const { id: updateId } = req.params
 
-  const product = await getProductByUpdateId(userId, updateId)
-
-  if (product === null) {
-    res.json({ message: 'Product that has this update not found' })
-    return
-  }
-
-  const update = await prisma.update.findUnique({
+  const update = await prisma.update.findFirst({
     where: {
       id: updateId,
+      product: {
+        userId,
+      },
     },
   })
 

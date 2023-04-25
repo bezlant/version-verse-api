@@ -2,7 +2,7 @@ import prisma from '@/db'
 import app from '@/server'
 import { type Update } from '@prisma/client'
 import request from 'supertest'
-import { createProduct, createUser, getJwt } from './utils'
+import { createProduct, createUpdate, createUser, getJwt } from './utils'
 
 describe('/api/update tests', () => {
   const user1 = { username: '1updatetest1', password: '1updatetestpassword1' }
@@ -97,6 +97,7 @@ describe('/api/update tests', () => {
     expect(gotUpdate.title).toBe(newUpdate.title)
     expect(gotUpdate.body).toBe(newUpdate.body)
   })
+
   test('should delete an update by id', async () => {
     const jwt: string = await getJwt(user1)
     const [product] = await createProduct({ name: productName }, jwt)
@@ -117,7 +118,7 @@ describe('/api/update tests', () => {
 
     const [gotUpdate] = await getUpdateById(update, jwt)
 
-    expect(gotUpdate).toBeUndefined()
+    expect(gotUpdate).toBeNull()
   })
 })
 
@@ -163,19 +164,4 @@ const getUpdateById = async (
   const { status } = response
 
   return [gotUpdate, status]
-}
-
-const createUpdate = async (
-  update: { title: string; body: string; productId: string },
-  jwt?: string
-): Promise<[Update, number]> => {
-  const response = await request(app)
-    .post('/api/update')
-    .set('Authorization', `Bearer ${jwt ?? ''}`)
-    .send(update)
-
-  const createdUpdate: Update = response.body.data
-  const { status } = response
-
-  return [createdUpdate, status]
 }
